@@ -1,0 +1,65 @@
+{% extends "base.html"%}
+{% load static %}
+{% block title %}And Books and Reviews{% endblock %}
+
+
+{% block content %}
+{% include "navbar.html" %} 
+<div class="container mt-4">
+    <div class="col">
+        <form action="add_book" method="POST">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-header text-black bg-information">
+                    <h2 class="card-title">Nuevo libro y comentario</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <label for="title" class="col-sm-3 col-form-label fw-bold">Título del libro</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="text" name="title" id="title" maxlength=50 required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="author" class="col-sm-3 col-form-label fw-bold">Autor</label>
+                    </div>
+                    <div class="mb-1 row">
+                        <label for="author" class="col-sm-3 col-form-label fw-bold">Escoger autor</label>
+                        <div class="col-sm 9">
+                            <select class="form-select" aria-label="Default select example" id="author" name="author">
+                                {%for author in authors%}
+                                <option value={{author.id}}>{{author.name}}</option>
+                                {%endfor%} 
+                            </select>  
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <label for="new_author" class="col-sm-3 col-form-label fw-bold">Nuevo autor</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="text" name="new_author" id="new_author" maxlength=100>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="reviews" class="col-sm-3 col-form-label fw-bold">Review</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="text" name="review" id="review" rows=3 required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="row mb-3">
+                            <label class= "col col-md-2 form-label fw-bold" for="rating"> Rating</label>
+                            <input class= "col col-md-2 form-label col-1" type="number" name="rating" id="rating" min="0" max="5">
+                            <p class="col col-md-2">estrellas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent mg-0">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <input class="btn btn-success btn-sm float-right" type="submit" value="Agregar libro y sus comentarios">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{%endblock%}

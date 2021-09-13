@@ -1,0 +1,120 @@
+{% extends "base.html"%}
+{% load static %}
+{% block title %}Bienvenido{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+    <div class="alert" role="alert">
+        <h1 class="alert-heading text-success">BIENVENIDOS</h1>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">        
+        <div class="col">
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header text-black bg-information">
+                        <h2 class="card-title">Registrarse</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <label for="nombre" class="col-sm-3 col-form-label fw-bold">Nombre</label>
+                            <div class="col-sm 9">
+                                <input class="form-control" type="text" name="nombre" id="nombre" maxlength=30 required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="alias" class="col-sm-3 col-form-label fw-bold">Alias</label>
+                            <div class="col-sm 9">
+                                <input class="form-control" type="text" name="alias" id="alias" maxlength=15 required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="email" class="col-sm-3 col-form-label fw-bold">Email</label>
+                            <div class="col-sm 9">
+                                <input class="form-control" type="email" name="email" id="email" maxlength=100 required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="password" class="col-sm-3 col-form-label fw-bold">Password</label>
+                            <div class="col-sm 9">
+                                <input class="form-control" type="password" name="password" id="password" required>
+                                <ul class="fw-italic fs-6">
+                                    <li>La contraseña debe tener al entre 8 y 16 caracteres</li>
+                                    <li>Al menos un dígito</li>
+                                    <li>Al menos una minúscula y al menos una mayúscula</li>
+                                    <li>No puede tener otros símbolos.</li>
+                                </ul>
+                            </div>   
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="password_confirm" class="col-sm-3 col-form-label fw-bold">Confirm Pass</label>
+                            <div class="col-sm 9">
+                                <input class="form-control" type="password" name="password_confirm" id="password_confirm" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center bg-transparent border-0">
+                        <div class="d-grid gap-2 d-md-block">
+                            <input class="btn btn-success" type="submit" value="Registro">
+                            <input class="btn btn-outline-success" type="reset" value="Volver">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <div class="card ">
+                    <div class="card-header text-black bg-information">
+                        <h2 class="card-title">Loguearse</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <label for="email" class="col-sm-3 col-form-label fw-bold">Email</label>
+                            <div class="col-sm 9">
+                                <input class="form-control" type="email" name="email_login" id="email_login" maxlength=100 required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="password" class="col-sm-3 col-form-label fw-bold">Password</label>
+                            <div class="col-sm 9">
+                                <input class="form-control" type="password" name="password_login" id="password_login" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center bg-transparent border-0">
+                        <div class="d-grid gap-2 d-md-block">
+                            <input class="btn btn-success" type="submit" value="Loguearse">
+                            <input class="btn btn-outline-success" type="reset" value="Volver">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% if messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            {% for message in messages %}  
+                                <li><strong>{{ message }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <ul>
+                            {% for message in messages %}  
+                            <li><strong>{{ message }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>   
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

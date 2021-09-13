@@ -1,0 +1,72 @@
+{% extends "base.html"%}
+{% load static %}
+{% block title %}Books | Home{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-5">
+		<div class="col col-sm-8">
+            <div class="col col-sm-2 justify-content-start">
+                <a class="navbar-brand" href="{%url 'home' %}">
+                    <img class="img-nav" src="{%static 'dojo_book_app/img/libros.jpg' %}" alt="Libros">
+                </a> 
+            </div>          
+            <div class="col col-sm-10 justify-content-start">
+                {% if request.session.usuario %}
+                    <h4>Bienvenido {{request.session.usuario.alias}}</h4>
+                {%else%}
+                    <h3>Bienvenido Invitado, <a href="{% url 'home' %}">Accede aqui</a></h3>
+                {%endif%}
+            </div>
+		</div>
+		<div class="col col-sm-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="{%url 'add' %}">Agregar libros y comentarios</a>
+                        <a class="nav-link" href="{%url 'home' %}">Salir</a>
+                    </div>
+                </div>
+            </div>
+        </nav>             
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">        
+        <div class="col-sm-6 md-4 card">
+            <div class="card-header text-black bg-transparent">
+                <h4 class="card-title">Libros comentados recientemente:</h4>
+            </div>
+            <div class="card-body">
+                <div class="mb-3 row ">
+                    {%for review in reviews%}
+                        <h3><a href="/book/{{review.book.id}}">{{review.book.title}}</a></h3>
+                        <h5>Rating: {{review.rating}}</h5>
+                        <div>
+                            <p><a href="/users/{{review.user_id}}">{{review.user.alias}}</a> dice: {{review.comment}}</p>
+                        </div>
+                        <p>Posteado en {{review.created_at|date:"M d, Y"}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 md-4 card">
+            <div class="card-header text-black bg-transparent">
+                <h4 class="card-title">Otros libros comentados:</h4>
+            </div>
+            <div class="card-body overflow-auto" style="max-height: 150px">
+                <div class="mb-3 row ">
+                    {%for reviews in book_with_reviews%}
+                        <a href="/book/{{reviews.book.id}}">{{reviews.book}}</a>
+                    {% endfor %}             
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+    
+ 

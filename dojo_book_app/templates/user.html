@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Users Reviews{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <div class="container-fluid">
+            <div class= "col col-sm-6 mb-4">
+                <img class="img-nav" src="{% static 'dojo_book_app/img/libros.jpg' %}" alt="Libros">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class= "col col-sm-6">
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav row-sm-4 mb-5">
+                        <a class="nav-link" href="{%url 'book' %}">Home</a>
+                        <a class="nav-link" href="{%url 'add' %}">Agregar un libro y un review</a>
+                        <a class="nav-link" href="{%url 'logout' %}">Salir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="row mb-5">
+        <ul class="list-unstyled">
+            <li class="mb-2">Usuario Alias: {{request.session.usuario.alias}}</li>
+            <li class="mb-2">Nombre: {{request.session.usuario.nombre}}</li>
+            <li class="mb-2">Email: {{request.session.usuario.email}}</li>
+            <li class="mb-2">Total Comentarios: {{count_review}}</li>
+        </ul>
+    </div>
+    <div class="row">
+        <form action="user_id" method="POST">
+            <p>Posteo de comentarios de los siguientes libros:</p>
+            {% if request.session.usuario %}
+                <ul class="list-unstyled">
+                    {% for book in books %}
+                        <li><a href="/book/{{book.id}}">{{book.title}}</a></li>
+                    {% endfor %} 
+                </ul>
+            {%endif%}
+        </form>
+    </div> 
+</div>
+{% endblock %}

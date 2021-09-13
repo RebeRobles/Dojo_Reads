@@ -1,0 +1,59 @@
+{% extends "base.html"%}
+{% load static %}
+{% block title %}And Books and Reviews{% endblock %}
+
+
+{% block content %}
+{% include "navbar.html" %} 
+<div class="container mt-4">
+    <div class="row mb-5">
+		<div class="col-8 justify-content-start">
+            <div class="row mb-5">
+                <h3 class="title">{{book.title}}</h3> 
+                <h5 class="title">Autor: {{book.author}}</h5>       
+            </div>
+        </div>   
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">        
+        <div class="col-sm-6 md-4 card">
+            <div class="card-header text-black bg-transparent">
+                <h4 class="card-title">Comentarios:</h4>
+            </div>
+            <div class="card-body">
+                {% for review in reviews %}  
+                    <h5>Rating: {{review.rating}}</h5>
+                    <a href="/users/{{review.user_id}}">{{review.user.alias}}</a><p> dice:  {{review.comment}}</p>
+                    <p>Posteado un {{review.created_at|date:"M d, Y"}}</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    {% if request.session.usuario.id == review.user_id %}
+                    <a href="delete/{{review.id}}">Eliminar este comentario</a>
+                    {% endif %}
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-6 md-4 card">
+            <form action="{{book.id}}/edit_review" method="POST">
+                {% csrf_token %}
+                <div class="card-header text-black bg-transparent">
+                    <h4 class="card-title">Agregar un comentario:</h4>
+                    <textarea name="comment" id="comment" cols="70" rows="5"></textarea>
+                    <div class="row mt-4">
+                        <label class= "col col-md-2 form-label fw-bold" for="rating"> Ranking</label>
+                        <input class= "form-label col-2" type="number" name="rating" id="rating" min="0" max="5">
+                        <p class="col col-md-2">estrellas</p>    
+                    </div>
+                </div>    
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end"> 
+                    <input type="hidden" name="book_id" value="{{book.id}}">           
+                    <input class="btn btn-success btn-sm float-right" type="submit" value="Agregar nuevo comentario">
+                </div>
+            </form>
+        </div>    
+    </div>        
+</div>
+{% endblock %}
+    
+
+
